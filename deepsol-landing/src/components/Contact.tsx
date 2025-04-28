@@ -12,47 +12,38 @@ export default function Contact() {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<{
-    type: 'success' | 'error' | null;
-    message: string;
-  }>({ type: null, message: '' });
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitStatus({ type: null, message: '' });
+    setSubmitStatus('idle');
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      await fetch(
+        'https://script.google.com/macros/s/AKfycbyzwZIow1-3NCy7bkZVbJpbhrZRAAEscJ-YDPMrsSHTBzPB4MZELOla1gDYmblppBdG/exec',
+        {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      // no-cors 모드에서는 response를 확인할 수 없으므로 항상 성공으로 처리
+      setSubmitStatus('success');
+      setFormData({
+        name: '',
+        company: '',
+        email: '',
+        phone: '',
+        message: ''
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setSubmitStatus({
-          type: 'success',
-          message: '문의가 성공적으로 접수되었습니다.',
-        });
-        setFormData({
-          name: '',
-          company: '',
-          email: '',
-          phone: '',
-          message: '',
-        });
-      } else {
-        throw new Error(data.message || '문의 접수 중 오류가 발생했습니다.');
-      }
     } catch (error) {
-      setSubmitStatus({
-        type: 'error',
-        message: error instanceof Error ? error.message : '문의 접수 중 오류가 발생했습니다.',
-      });
+      setSubmitStatus('error');
+      console.error('Error submitting form:', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -64,150 +55,139 @@ export default function Contact() {
   };
 
   return (
-    <div id="contact" className="bg-gray-50 py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl lg:text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-base font-semibold leading-7 text-[#0054FF]"
-          >
-            B2B 문의
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
-          >
-            교육 업계의 혁신을 함께 만들어가요
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-6 text-lg leading-8 text-gray-600"
-          >
-            딥솔의 AI 교육 솔루션에 대해 문의하시거나, <br></br>
-            협업을 제안하고 싶으시다면 아래 양식을 작성해주세요.
-          </motion.p>
-        </div>
-        <motion.form
+    <section className="w-full flex flex-col items-center justify-center py-20 px-4 bg-gradient-to-br from-blue-50/70 via-white to-blue-100/60">
+      <div className="mx-auto max-w-2xl lg:text-center">
+        <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          onSubmit={handleSubmit}
-          className="mx-auto mt-16 max-w-xl sm:mt-20"
+          transition={{ duration: 0.8 }}
+          className="text-base font-semibold leading-7 text-[#0054FF]"
         >
-          <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+          B2B 문의
+        </motion.h2>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mt-2 text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 text-left sm:text-center mb-4"
+        >
+          딥솔과 함께 교육 혁신을 시작하세요
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="text-base sm:text-lg text-gray-600 text-left sm:text-center mb-6 sm:mb-10"
+        >
+          교육 혁신을 위한 파트너십을 제안합니다.
+        </motion.p>
+      </div>
+
+      <div className="w-full max-w-2xl mx-auto">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 gap-6">
             <div>
-              <label htmlFor="name" className="block text-sm font-semibold leading-6 text-gray-900">
-                담당자명
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                이름
               </label>
-              <div className="mt-2.5">
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#0054FF] sm:text-sm sm:leading-6"
-                />
-              </div>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                required
+                value={formData.name}
+                onChange={handleChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              />
             </div>
+
             <div>
-              <label htmlFor="company" className="block text-sm font-semibold leading-6 text-gray-900">
+              <label htmlFor="company" className="block text-sm font-medium text-gray-700">
                 회사명
               </label>
-              <div className="mt-2.5">
-                <input
-                  type="text"
-                  name="company"
-                  id="company"
-                  value={formData.company}
-                  onChange={handleChange}
-                  required
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#0054FF] sm:text-sm sm:leading-6"
-                />
-              </div>
+              <input
+                type="text"
+                name="company"
+                id="company"
+                required
+                value={formData.company}
+                onChange={handleChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              />
             </div>
-            <div className="sm:col-span-2">
-              <label htmlFor="email" className="block text-sm font-semibold leading-6 text-gray-900">
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 이메일
               </label>
-              <div className="mt-2.5">
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#0054FF] sm:text-sm sm:leading-6"
-                />
-              </div>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              />
             </div>
-            <div className="sm:col-span-2">
-              <label htmlFor="phone" className="block text-sm font-semibold leading-6 text-gray-900">
-                전화번호
+
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                연락처
               </label>
-              <div className="mt-2.5">
-                <input
-                  type="tel"
-                  name="phone"
-                  id="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#0054FF] sm:text-sm sm:leading-6"
-                />
-              </div>
+              <input
+                type="tel"
+                name="phone"
+                id="phone"
+                required
+                value={formData.phone}
+                onChange={handleChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              />
             </div>
-            <div className="sm:col-span-2">
-              <label htmlFor="message" className="block text-sm font-semibold leading-6 text-gray-900">
+
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium text-gray-700">
                 문의 내용
               </label>
-              <div className="mt-2.5">
-                <textarea
-                  name="message"
-                  id="message"
-                  rows={4}
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#0054FF] sm:text-sm sm:leading-6"
-                />
-              </div>
+              <textarea
+                name="message"
+                id="message"
+                rows={4}
+                required
+                value={formData.message}
+                onChange={handleChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              />
             </div>
           </div>
-          {submitStatus.type && (
-            <div
-              className={`mt-4 p-4 rounded-md ${
-                submitStatus.type === 'success'
-                  ? 'bg-green-50 text-green-700'
-                  : 'bg-red-50 text-red-700'
-              }`}
-            >
-              {submitStatus.message}
-            </div>
-          )}
-          <div className="mt-10">
+
+          <div className="flex justify-center">
             <button
               type="submit"
               disabled={isSubmitting}
-              className="block w-full rounded-md bg-[#0054FF] px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0044CC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0054FF] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex justify-center rounded-md border border-transparent bg-[#0054FF] py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-[#0044cc] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? '전송 중...' : 'B2B 문의하기'}
+              {isSubmitting ? '전송 중...' : '문의하기'}
             </button>
           </div>
-        </motion.form>
+
+          {submitStatus === 'success' && (
+            <div className="text-center text-green-600">
+              문의가 성공적으로 전송되었습니다. 빠른 시일 내에 연락드리겠습니다.
+            </div>
+          )}
+
+          {submitStatus === 'error' && (
+            <div className="text-center text-red-600">
+              문의 전송에 실패했습니다. 잠시 후 다시 시도해주세요.
+            </div>
+          )}
+        </form>
       </div>
-    </div>
+    </section>
   );
 } 
