@@ -55,8 +55,8 @@ export default function Contact() {
   };
 
   return (
-    <section className="w-full flex flex-col items-center justify-center py-20 px-4 bg-gradient-to-br from-blue-50/70 via-white to-blue-100/60">
-      <div className="mx-auto max-w-2xl lg:text-center">
+    <section className="w-full flex flex-col items-center justify-center py-32 px-4 bg-gradient-to-br from-blue-50/70 via-white to-blue-100/60">
+      <div className="mx-auto max-w-4xl lg:text-center">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -71,7 +71,7 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mt-2 text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 text-left sm:text-center mb-4"
+          className="mt-4 text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 text-center mb-6"
         >
           딥솔과 함께 교육 혁신을 시작하세요
         </motion.h2>
@@ -80,17 +80,17 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-base sm:text-lg text-gray-600 text-left sm:text-center mb-6 sm:mb-10"
+          className="text-lg sm:text-xl text-gray-600 text-center mb-12"
         >
           교육 혁신을 위한 파트너십을 제안합니다.
         </motion.p>
       </div>
 
-      <div className="w-full max-w-2xl mx-auto">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 gap-6">
+      <div className="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8 sm:p-12">
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div className="grid grid-cols-1 gap-8">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="name" className="block text-base font-medium text-gray-700 mb-2">
                 이름
               </label>
               <input
@@ -100,12 +100,13 @@ export default function Contact() {
                 required
                 value={formData.name}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-base p-3"
+                placeholder="담당자 이름을 입력해주세요"
               />
             </div>
 
             <div>
-              <label htmlFor="company" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="company" className="block text-base font-medium text-gray-700 mb-2">
                 회사명
               </label>
               <input
@@ -115,12 +116,13 @@ export default function Contact() {
                 required
                 value={formData.company}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-base p-3"
+                placeholder="회사명을 입력해주세요"
               />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-base font-medium text-gray-700 mb-2">
                 이메일
               </label>
               <input
@@ -130,12 +132,13 @@ export default function Contact() {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-base p-3"
+                placeholder="이메일을 입력해주세요"
               />
             </div>
 
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="phone" className="block text-base font-medium text-gray-700 mb-2">
                 연락처
               </label>
               <input
@@ -145,22 +148,24 @@ export default function Contact() {
                 required
                 value={formData.phone}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-base p-3"
+                placeholder="연락처를 입력해주세요"
               />
             </div>
 
             <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="message" className="block text-base font-medium text-gray-700 mb-2">
                 문의 내용
               </label>
               <textarea
                 name="message"
                 id="message"
-                rows={4}
+                rows={6}
                 required
                 value={formData.message}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-base p-3"
+                placeholder="협업하고 싶은 내용을 자세히 입력해주세요"
               />
             </div>
           </div>
@@ -169,20 +174,20 @@ export default function Contact() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex justify-center rounded-md border border-transparent bg-[#0054FF] py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-[#0044cc] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex justify-center rounded-lg bg-[#0054FF] py-4 px-8 text-lg font-semibold text-white shadow-sm hover:bg-[#0044cc] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
             >
-              {isSubmitting ? '전송 중...' : '문의하기'}
+              {isSubmitting ? '전송 중...' : 'B2B 문의하기'}
             </button>
           </div>
 
           {submitStatus === 'success' && (
-            <div className="text-center text-green-600">
+            <div className="text-center text-green-600 text-lg">
               문의가 성공적으로 전송되었습니다. 빠른 시일 내에 연락드리겠습니다.
             </div>
           )}
 
           {submitStatus === 'error' && (
-            <div className="text-center text-red-600">
+            <div className="text-center text-red-600 text-lg">
               문의 전송에 실패했습니다. 잠시 후 다시 시도해주세요.
             </div>
           )}
