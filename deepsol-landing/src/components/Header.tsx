@@ -32,7 +32,7 @@ export default function Header() {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
-              <span className="text-2xl font-bold bg-gradient-to-r from-[#0054FF] to-[#00A3FF] bg-clip-text text-transparent">Team DeepSol</span>
+              <span className="text-xl sm:text-lg font-bold bg-gradient-to-r from-[#0054FF] to-[#00A3FF] bg-clip-text text-transparent">Team DeepSol</span>
             </Link>
           </div>
           

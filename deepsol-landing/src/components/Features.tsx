@@ -81,7 +81,7 @@ export default function Features() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: index * 0.2 }}
-                className="flex flex-col"
+                className="flex flex-col bg-white/40 backdrop-blur-md rounded-xl p-4 sm:p-6 shadow-lg border border-white/20"
               >
                 <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
                   <feature.icon className="h-5 w-5 flex-none text-[#0054FF]" aria-hidden="true" />

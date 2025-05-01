@@ -97,7 +97,7 @@ export default function Services() {
                     {service.name}
                   </h3>
                 </div>
-                <p className="text-xs sm:text-sm leading-6 text-gray-600 mb-4 sm:mb-6 flex-1">
+                <p className="text-sm sm:text-sm leading-6 text-gray-600 mb-4 sm:mb-6 flex-1">
                   {service.description}
                 </p>
                 {service.link && (
